@@ -12,4 +12,4 @@ export const reducers: ActionReducerMap<ProductsStoreState> = {
 
 export const FEATURE_KEY = 'products';
 
-export const getClaimsStoreState = createFeatureSelector<ProductsStoreState>(FEATURE_KEY);
+export const getProductsStoreState = createFeatureSelector<ProductsStoreState>(FEATURE_KEY);
