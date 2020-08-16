@@ -1,2 +1,3 @@
+import { ProductsListComponent } from './products-list/products-list.component';
 
-export const components: any[] = [];
+export const components: any[] = [ProductsListComponent];
