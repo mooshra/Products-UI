@@ -1,2 +1,3 @@
+import { ProductsEffects } from './products/products.effects';
 
-export const effects: any[] = [];
+export const effects: any[] = [ProductsEffects];

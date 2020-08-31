@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Bootstrap Modal</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-8 offset-sm-2">
+            <form [formGroup]="form">
+                <label for="name">Product Name</label>
+                <input formControlName="name" type="text" name="name" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Enter your name">
+                <small id="nameHelp" class="form-text text-muted">Enter your product’s name</small>
+
+                <label for="category">Product category</label>
+                <input formControlName="category" type="text" name="category" class="form-control" id="category" aria-describedby="categoryHelp"
+                placeholder="Enter your category">
+                <small id="nameHelp" class="form-text text-muted">Enter your product’s category</small>
+
+                <label for="price">Product price</label>
+                <input formControlName="price" type="number" name="price" class="form-control" id="price" aria-describedby="descHelp"/>
+                <small id="descHelp" class="form-text text-muted">Enter your product’s price</small>
+            </form>
+            <button class="btn btn-primary" (click)="saveProduct()">Save</button>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  </div>

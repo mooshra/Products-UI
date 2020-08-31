@@ -1,1 +1,38 @@
-<p>products-list works!</p>
+<div class="container" style="margin-top: 70px;">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.productId }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.price | currency }}</td>
+        <td>
+          <button class="btn btn-primary" (click)="handleSelectProduct(product)">Review</button>
+          <button class="btn btn-primary" (click)="handleOpenModal(product)">Edit</button>
+          <button class="btn btn-primary" (click)="handleDeleteProduct(product.productId)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="card text-center" *ngIf="selectedProduct">
+    <div class="card-header"># {{ selectedProduct.id }}</div>
+    <div class="card-block">
+      <h4 class="card-title">{{ selectedProduct.name }}</h4>
+      <p class="card-text">
+        {{ selectedProduct.category }}
+      </p>
+    </div>
+  </div>
+</div>
+<button class="btn btn-lg btn-outline-primary" (click)="handleOpenModal()">Open My Modal</button>

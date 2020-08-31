@@ -1,4 +1,7 @@
 <div class="jumbotron">
   <h1>Products List</h1>
-  <app-products-list></app-products-list>
+  <app-products-list
+    [products]="products$ | async"
+    (loadProducts)="handleLoadProducts()"
+  ></app-products-list>
 </div>

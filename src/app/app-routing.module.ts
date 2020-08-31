@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AppRoutes } from './shared/data/routes';
-import { AuthGuard } from './shared/guards/auth.guard';
-import { AppLayoutComponent } from './layout/layout.component';
+import { RouterModule, Routes } from '@angular/router';
 
+import { AppLayoutComponent } from './layout/layout.component';
+import { AppRoutes } from './shared/data/common';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: AppRoutes.HOME },
@@ -14,15 +14,14 @@ const routes: Routes = [
     children: [
       {
         path: AppRoutes.PRODUCTS,
-        loadChildren: () =>
-          import('./products/products.module').then(m => m.ProductsModule),
+        loadChildren: () => import('./products/products.module').then(m => m.ProductsModule),
       },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

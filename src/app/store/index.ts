@@ -12,12 +12,10 @@ export const reducers: ActionReducerMap<AppState> = {
 export const effects: any[] = [];
 
 export function log(reducer: ActionReducer<any>): ActionReducer<any> {
-    return (state, action) => {
-      console.log('state', state);
-      console.log('action', action);
-      return reducer(state, action);
-    };
-  }
+  return (state, action) => {
+    return reducer(state, action);
+  };
+}
 
 export const metaReducers: MetaReducer<AppState>[] = [log];
 
