@@ -3,6 +3,13 @@ export enum AppRoutes {
   PRODUCTS = 'products',
 }
 
+export enum HttpMethods {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
+}
+
 export interface ErrorResponse {
   error: {
     message: string;

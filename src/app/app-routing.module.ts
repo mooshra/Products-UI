@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppLayoutComponent } from './layout/layout.component';
 import { AppRoutes } from './shared/data/common';
-import { AuthGuard } from './shared/guards/auth.guard';
+import { AuthGuard } from './shared/guards/index';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: AppRoutes.HOME },

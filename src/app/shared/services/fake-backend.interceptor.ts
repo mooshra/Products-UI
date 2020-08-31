@@ -2,66 +2,55 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } fr
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { Product } from '../../products/models/product';
+import { HttpMethods } from '../data';
+import { getProductsJson, setProductsJson } from './http-helpers';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
-  products: Product[] = [
-    {
-      productId: 1,
-      name: 'test 1',
-      price: 100,
-      category: 'category',
-    },
-    {
-      productId: 2,
-      name: 'test 2',
-      price: 111,
-      category: 'category',
-    },
-  ];
-
   constructor(private injector: Injector) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (request.method === 'GET' && request.url.endsWith('products/list')) {
-      console.log(localStorage.getItem('products'));
-      return of(
-        new HttpResponse({ status: 200, body: JSON.parse(localStorage.getItem('products')) })
-      );
-    }
-    if (request.method === 'GET' && request.url.endsWith('products/item')) {
-      const product = this.products.find(p => p.productId === request.params[0]);
-      return of(new HttpResponse({ status: 200, body: product }));
-    }
-    if (request.method === 'POST' && request.url.endsWith('products/create')) {
-      const product = request.body.product;
-
-      product.productId = this.products.length
-        ? Math.max(...this.products.map(x => x.productId)) + 1
-        : 1;
-      this.products.push(product);
-      localStorage.setItem('products', JSON.stringify(this.products));
-
-      return of(new HttpResponse({ status: 200 }));
-    }
-
-    if (request.method === 'DELETE' && request.url.endsWith('products/delete')) {
-      this.products = this.products.filter(x => x.productId !== +request.params.get('id'));
-      localStorage.setItem('products', JSON.stringify(this.products));
-      return of(new HttpResponse({ status: 200 }));
-    }
-
-    if (request.method === 'PUT' && request.url.endsWith('products/update')) {
-      const product = request.body.product;
-      const index = this.products.findIndex(p => p.productId === product.productId);
-      if (index !== -1) {
-        const response = this.products.slice();
-        response.splice(index, 1, product);
-        this.products = response;
-        localStorage.setItem('products', JSON.stringify(this.products));
-        return of(new HttpResponse({ status: 200 }));
-      }
+    switch (request.method) {
+      case HttpMethods.GET:
+        if (request.url.endsWith('products/list')) {
+          console.log(getProductsJson());
+          return of(new HttpResponse({ status: 200, body: getProductsJson() }));
+        }
+        if (request.url.endsWith('products/item')) {
+          const product = getProductsJson().find(p => p.productId === request.params[0]);
+          return of(new HttpResponse({ status: 200, body: product }));
+        }
+        break;
+      case HttpMethods.POST:
+        if (request.url.endsWith('products/create')) {
+          const newProduct = request.body.product;
+          const products = getProductsJson();
+          newProduct.productId = products.length
+            ? Math.max(...products.map(x => x.productId)) + 1
+            : 1;
+          products.push(newProduct);
+          setProductsJson(products);
+          return of(new HttpResponse({ status: 200 }));
+        }
+        break;
+      case HttpMethods.PUT:
+        if (request.url.endsWith('products/update')) {
+          const editedProduct = request.body.product;
+          const products = getProductsJson();
+          const index = products.findIndex(p => p.productId === editedProduct.productId);
+          if (index !== -1) {
+            products.splice(index, 1, editedProduct);
+            setProductsJson(products);
+            return of(new HttpResponse({ status: 200 }));
+          }
+        }
+        break;
+      case HttpMethods.DELETE:
+        if (request.url.endsWith('products/delete')) {
+          const products = getProductsJson().filter(x => x.productId !== +request.params.get('id'));
+          setProductsJson(products);
+          return of(new HttpResponse({ status: 200 }));
+        }
     }
 
     next.handle(request);

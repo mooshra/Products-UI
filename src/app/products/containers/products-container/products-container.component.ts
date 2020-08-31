@@ -3,7 +3,8 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/store';
 
-import { Product } from '../../models/product';
+import { setProductsJson } from '../../../shared/services/index';
+import { initialProducts, Product } from '../../models/product';
 import { fetchProducts, loadProducts } from '../../store/products/products.actions';
 import { selectProducts, selectProductsLoading } from '../../store/products/products.selectors';
 
@@ -19,6 +20,8 @@ export class ProductsContainerComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
+    setProductsJson(initialProducts);
+
     this.products$ = this.store.pipe(select(selectProducts));
     this.loading$ = this.store.pipe(select(selectProductsLoading));
 
