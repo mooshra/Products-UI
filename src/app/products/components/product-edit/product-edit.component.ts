@@ -17,6 +17,12 @@ export class ProductEditComponent implements OnInit {
   product: Product = { name: '', productId: null, category: '', price: 0 };
   @Output()
   loadProducts = new EventEmitter<void>();
+  get name() {
+    return this.form.get('name');
+  }
+  get price() {
+    return this.form.get('price');
+  }
 
   constructor(
     public dataService: ProductsService,
@@ -30,14 +36,17 @@ export class ProductEditComponent implements OnInit {
         productId: [this.product],
         name: ['', Validators.required],
         category: [''],
-        price: ['', Validators.required],
+        price: [null, [Validators.required, Validators.min(1)]],
       });
     }
     this.form.patchValue(this.product);
   }
 
   saveProduct(): void {
-    console.log(this.form.value);
+    if (!this.form.valid) {
+      this.form.updateValueAndValidity();
+      return;
+    }
     if (this.product.productId) {
       this.dataService
         .updateProduct(this.form.value)

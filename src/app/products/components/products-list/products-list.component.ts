@@ -31,7 +31,7 @@ export class ProductsListComponent implements OnInit {
     if (product) {
       modalRef.componentInstance.product = product;
     }
-    modalRef.componentInstance.loadProducts.subscribe(() => this.loadProducts.emit());
+    modalRef.componentInstance.loadProducts.pipe(take(1)).subscribe(() => this.loadProducts.emit());
   }
 
   handleSelectProduct(product: Product): void {
@@ -39,9 +39,11 @@ export class ProductsListComponent implements OnInit {
   }
 
   handleDeleteProduct(id: number) {
-    this.dataService
-      .deleteProduct(id)
-      .pipe(take(1))
-      .subscribe(() => this.loadProducts.emit());
+    if (confirm('Are you sure?')) {
+      this.dataService
+        .deleteProduct(id)
+        .pipe(take(1))
+        .subscribe(() => this.loadProducts.emit());
+    }
   }
 }

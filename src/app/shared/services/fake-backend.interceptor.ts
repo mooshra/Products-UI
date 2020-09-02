@@ -13,12 +13,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     switch (request.method) {
       case HttpMethods.GET:
         if (request.url.endsWith('products/list')) {
-          console.log(getProductsJson());
           return of(new HttpResponse({ status: 200, body: getProductsJson() }));
-        }
-        if (request.url.endsWith('products/item')) {
-          const product = getProductsJson().find(p => p.productId === request.params[0]);
-          return of(new HttpResponse({ status: 200, body: product }));
         }
         break;
       case HttpMethods.POST:
