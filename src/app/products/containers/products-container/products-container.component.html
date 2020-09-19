@@ -1,7 +1,10 @@
-<div class="jumbotron">
+<section class="jumbotron text-center">
   <h1>Products List</h1>
-  <app-products-list
-    [products]="products$ | async"
-    (loadProducts)="handleLoadProducts()"
-  ></app-products-list>
-</div>
+  <div class="container">
+    <p class="lead text-muted">Our service</p>
+  </div>
+</section>
+    <app-products-list
+      [products]="products$ | async"
+      (loadProducts)="handleLoadProducts()"
+    ></app-products-list>
